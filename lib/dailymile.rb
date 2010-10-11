@@ -8,7 +8,7 @@ require 'dailymile/client'
 module Dailymile
   
   VERSION = File.read(File.join(File.dirname(__FILE__), '..', 'VERSION'))
-  BASE_URI = 'http://localhost:3000' # 'https://api.dailymile.com'
+  BASE_URI = 'https://api.dailymile.com'
   OAUTH_AUTHORIZE_PATH = '/oauth/authorize'
   OAUTH_TOKEN_PATH = '/oauth/token'
   
