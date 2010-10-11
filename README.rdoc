@@ -10,10 +10,23 @@ The best way to install dailymile-ruby is via RubyGems:
 
   sudo gem install dailymile-ruby
   
-1. register your client
-2. require 'dailymile'
-3. make a call
-4. make an authenticated call
+Get entries nearby a given latitude and longitude:
+
+  require 'dailymile'
+  client = Dailymile::Client.new
+  client.entries :nearby, 37.77916, -122.420049
+  
+To access protected resources you'll need to use OAuth 2.
+
+  1. Register your client at http://www.dailymile.com/api/consumers/new
+  2. Get an access token on behalf of a user, see instructions here http://www.dailymile.com/api/documentation/oauth
+
+Using your access token:
+  
+  require 'dailymile'
+  Dailymile::Client.set_client_credentials CLIENT_ID, CLIENT_SECRET
+  client = Dailymile::Client.new ACCESS_TOKEN
+  current_user = client.get '/people/me'
 
 == Note on Patches/Pull Requests
  
