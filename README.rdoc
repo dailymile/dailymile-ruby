@@ -13,8 +13,8 @@ The best way to install dailymile-ruby is via RubyGems:
 Get entries nearby a given latitude and longitude:
 
   require 'dailymile'
-  client = Dailymile::Client.new
-  client.entries :nearby, 37.77916, -122.420049
+  Dailymile::Client.entries :nearby, 37.77916, -122.420049
+  Dailymile::Client.get '/people/ben'
   
 To access protected resources you'll need to use OAuth 2.
 
@@ -26,7 +26,7 @@ Using your access token:
   require 'dailymile'
   Dailymile::Client.set_client_credentials CLIENT_ID, CLIENT_SECRET
   client = Dailymile::Client.new ACCESS_TOKEN
-  current_user = client.get '/people/me'
+  user = client.get '/people/me'
 
 == Note on Patches/Pull Requests
  
