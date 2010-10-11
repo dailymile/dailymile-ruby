@@ -1,15 +1,12 @@
 module Dailymile
   
-  class Token
+  class Connection
     
-    def initialize(client, token)
-      @client = client
-      set_access_token token
-    end
-    
-    def access_token=(token)
-      set_access_token token
-    end
+    DEFAULT_FORMAT = :json
+    DEFAULT_HEADERS = {
+      'Accept' =>  'application/json',
+      'User-Agent' => "dailymile-ruby/#{VERSION}"
+    }
     
     def get(path, params = {})
       request :get, path, params
@@ -27,16 +24,36 @@ module Dailymile
       request :delete, path
     end
     
-  private
+  protected
   
-    def request(verb, path, params = {}, headers = {})
+    def make_request(verb, path, params = {}, headers = {}, &block)
       path << ".#{DEFAULT_FORMAT}" unless path =~ /.+\.\w+$/
       path << to_query_string(params) unless params.empty?
       
-      response = @access_token.request(verb, path, {}, default_headers.merge(headers))
+      response = block.call verb, path, {}, DEFAULT_HEADERS.merge(headers)
+      
       handle_response(response)
     end
     
+  private
+  
+    def request(verb, path, params = {}, headers = {})
+      @connection ||= Faraday::Connection.new(:url => "http://api.dailymile.com", :headers => DEFAULT_HEADERS) do |builder|
+        builder.adapter Faraday.default_adapter
+        #builder.use Faraday::Response::Mashify
+      end
+      
+      make_request(verb, path, params, headers) do |verb, path, params, headers|
+        if verb == :get
+          @connection.run_request(verb, path, nil, headers) do |req|
+            req.params.update(params)
+          end
+        else
+          @connection.run_request(verb, path, params, headers)
+        end
+      end
+    end
+  
     def handle_response(response)
       case response.status
       when 200, 201
@@ -47,7 +64,7 @@ module Dailymile
         raise Unauthorized
       when 403
         raise Forbidden, "Not using HTTP over TLS"
-    when 503, 502
+      when 503, 502
         if response.status == 503 && response['Retry-After']
           raise RateLimitExceeded
         else
@@ -71,17 +88,6 @@ module Dailymile
           [k.to_s, URI.escape(v.to_s)].join('=')
         end
       end.join('&')
-    end
-  
-    def default_headers
-      {
-        'Accept' =>  'application/json',
-        'User-Agent' => "dailymile-ruby/#{VERSION}"
-      }
-    end
-    
-    def set_access_token(token)
-      @access_token = OAuth2::AccessToken.new(@client, token)
     end
     
   end

@@ -1,8 +1,10 @@
-require 'oauth2'
+require 'faraday'
 require 'json'
+require 'oauth2'
 
 require 'oauth2_monkey_patches'
-require 'dailymile/token'
+require 'dailymile/connection'
+require 'dailymile/connection/token'
 require 'dailymile/client'
 
 module Dailymile
