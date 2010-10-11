@@ -5,12 +5,16 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "dailymile-ruby"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{dailymile ruby client}
+    gem.description = %Q{This gem wraps the dailymile API that's available at http://www.dailymile.com/api}
     gem.email = "blweiner@gmail.com"
-    gem.homepage = "http://github.com/lostinpatterns/dailymile-ruby"
+    gem.homepage = "http://github.com/dailymile/dailymile-ruby"
     gem.authors = ["lostinpatterns"]
-    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
+    
+    gem.add_dependency("oauth2", "0.0.13")
+    gem.add_dependency("json_pure")
+    
+    # gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new

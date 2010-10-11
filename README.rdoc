@@ -1,6 +1,8 @@
 = dailymile-ruby
 
-Description goes here.
+dailymile ruby client
+
+This gem wraps the dailymile API that's available at http://www.dailymile.com/api
 
 == Note on Patches/Pull Requests
  
