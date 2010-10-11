@@ -4,6 +4,17 @@ dailymile ruby client
 
 This gem wraps the dailymile API that's available at http://www.dailymile.com/api
 
+== Getting started
+
+The best way to install dailymile-ruby is via RubyGems:
+
+  sudo gem install dailymile-ruby
+  
+1. register your client
+2. require 'dailymile'
+3. make a call
+4. make an authenticated call
+
 == Note on Patches/Pull Requests
  
 * Fork the project.

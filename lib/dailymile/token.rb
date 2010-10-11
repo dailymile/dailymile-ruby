@@ -3,7 +3,12 @@ module Dailymile
   class Token
     
     def initialize(client, token)
-      @access_token = OAuth2::AccessToken.new(client, token)
+      @client = client
+      set_access_token token
+    end
+    
+    def access_token=(token)
+      set_access_token token
     end
     
     def get(path, params = {})
@@ -25,7 +30,7 @@ module Dailymile
   private
   
     def request(verb, path, params = {}, headers = {})
-      path << ".json" # HACK: append json to path
+      path << ".#{DEFAULT_FORMAT}" unless path =~ /.+\.\w+$/
       path << to_query_string(params) unless params.empty?
       
       response = @access_token.request(verb, path, {}, default_headers.merge(headers))
@@ -40,6 +45,8 @@ module Dailymile
         raise NotFound
       when 401
         raise Unauthorized
+      when 403
+        raise Forbidden, "Not using HTTP over TLS"
     when 503, 502
         if response.status == 503 && response['Retry-After']
           raise RateLimitExceeded
@@ -71,6 +78,10 @@ module Dailymile
         'Accept' =>  'application/json',
         'User-Agent' => "dailymile-ruby/#{VERSION}"
       }
+    end
+    
+    def set_access_token(token)
+      @access_token = OAuth2::AccessToken.new(@client, token)
     end
     
   end

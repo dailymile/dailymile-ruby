@@ -23,9 +23,11 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "VERSION",
+     "dailymile-ruby.gemspec",
      "lib/dailymile.rb",
      "lib/dailymile/client.rb",
      "lib/dailymile/token.rb",
+     "lib/oauth2_monkey_patches.rb",
      "test/helper.rb",
      "test/test_dailymile-ruby.rb"
   ]
