@@ -57,7 +57,7 @@ module Dailymile
     def handle_response(response)
       case response.status
       when 200, 201
-        JSON.parse(response.body) rescue nil
+        JSON.parse(response) rescue nil
       when 404
         raise NotFound
       when 401
@@ -65,16 +65,18 @@ module Dailymile
       when 403
         raise Forbidden, "Not using HTTP over TLS"
       when 503, 502
-        if response.status == 503 && response['Retry-After']
-          raise RateLimitExceeded
+        retry_after = response.headers['Retry-After'] || response.headers['retry-after']
+        
+        if response.status == 503 && retry_after
+          raise RateLimitExceeded, "Retry-After: #{retry_after}"
         else
-          raise Unavailable, "#{response.status}: #{response.body}"
+          raise Unavailable, "#{response.status}: #{response}"
         end
       when 422
-        errors = JSON.parse(response.body) rescue nil
+        errors = JSON.parse(response) rescue nil
         raise UnprocessableEntity, errors
       else
-        raise DailymileError,"#{response.status}: #{response.body}"
+        raise DailymileError,"#{response.status}: #{response}"
       end
     end
     

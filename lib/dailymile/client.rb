@@ -10,9 +10,7 @@ module Dailymile
     def_instance_delegators :@connection, :get, :post, :put, :delete
     
     def initialize(token = nil)
-      raise "Please call set_client_credentials first" if @@oauth_client.nil?
-      
-      @connection = Connection::Token.new(@@oauth_client, token)
+      @connection = Connection::Token.new(self.class.oauth_client, token)
     end
     
     def self.get(*args); connection.get(*args) end
@@ -23,6 +21,12 @@ module Dailymile
         :access_token_path => OAUTH_TOKEN_PATH,
         :authorize_path => OAUTH_AUTHORIZE_PATH
       )
+    end
+    
+    def self.oauth_client
+      raise "Please call set_client_credentials first" if @@oauth_client.nil?
+      
+      @@oauth_client
     end
     
     # EXAMPLES:

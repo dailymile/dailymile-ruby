@@ -8,15 +8,4 @@ module OAuth2
       @client.request(verb, path, params)
     end
   end
-  class Client
-    def request(verb, url, params = {}, headers = {})
-      if verb == :get
-        connection.run_request(verb, url, nil, headers) do |req|
-          req.params.update(params)
-        end
-      else
-        connection.run_request(verb, url, params, headers)
-      end
-    end
-  end
 end
