@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'psych'
 require 'rake'
 
 begin
@@ -11,9 +12,9 @@ begin
     gem.homepage = "http://github.com/dailymile/dailymile-ruby"
     gem.authors = ["lostinpatterns"]
     
-    gem.add_dependency("faraday", "~> 0.4.1")
+    gem.add_dependency("faraday", "~> 0.5.7")
     gem.add_dependency("json_pure")
-    gem.add_dependency("oauth2", "0.0.13")
+    gem.add_dependency("oauth2", "0.1.1")
     
     # gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings

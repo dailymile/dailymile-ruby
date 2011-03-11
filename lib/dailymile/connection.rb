@@ -5,7 +5,7 @@ module Dailymile
     DEFAULT_FORMAT = :json
     DEFAULT_HEADERS = {
       'Accept' =>  'application/json',
-      'User-Agent' => "dailymile-ruby/#{VERSION}"
+      'User-Agent' => "dailymile-ruby/#{Dailymile::VERSION}"
     }
     
     def get(path, params = {})
@@ -28,9 +28,13 @@ module Dailymile
   
     def make_request(verb, path, params = {}, headers = {}, &block)
       path << ".#{DEFAULT_FORMAT}" unless path =~ /.+\.\w+$/
-      path << to_query_string(params) unless params.empty?
       
-      response = block.call verb, path, {}, DEFAULT_HEADERS.merge(headers)
+      if verb == :get
+        path << to_query_string(params) unless params.empty?
+        params = {}
+      end
+      
+      response = block.call verb, path, params, DEFAULT_HEADERS.merge(headers)
       
       handle_response(response)
     end
@@ -38,7 +42,7 @@ module Dailymile
   private
   
     def request(verb, path, params = {}, headers = {})
-      @connection ||= Faraday::Connection.new(:url => "http://api.dailymile.com", :headers => DEFAULT_HEADERS) do |builder|
+      @connection ||= Faraday::Connection.new(:url => "http://#{Dailymile::HOST}", :headers => DEFAULT_HEADERS) do |builder|
         builder.adapter Faraday.default_adapter
         #builder.use Faraday::Response::Mashify
       end
@@ -57,7 +61,7 @@ module Dailymile
     def handle_response(response)
       case response.status
       when 200, 201
-        JSON.parse(response) rescue nil
+        JSON.parse(response) unless response.nil? # rescue nil
       when 404
         raise NotFound
       when 401
@@ -73,7 +77,7 @@ module Dailymile
           raise Unavailable, "#{response.status}: #{response}"
         end
       when 422
-        errors = JSON.parse(response) rescue nil
+        errors = JSON.parse(response) unless response.nil? # rescue nil
         raise UnprocessableEntity, errors
       else
         raise DailymileError,"#{response.status}: #{response}"

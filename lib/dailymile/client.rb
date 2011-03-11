@@ -30,13 +30,13 @@ module Dailymile
     end
     
     # EXAMPLES:
-    #   everyone stream: client.entries
-    #   nearby stream: client.entries :nearby, 37.77916, -122.420049, :page => 2
-    #   ben's stream: client.entries 'ben', :page => 2
+    #   everyone stream: Dailymile::Client.entries
+    #   nearby stream:   Dailymile::Client.entries :nearby, 37.77916, -122.420049, :page => 2
+    #   ben's stream:    Dailymile::Client.entries 'ben', :page => 2
     def self.entries(*args)
       params = extract_options_from_args!(args)
       filter = args.shift
-    
+      
       entries_path = case filter
       when String, Symbol
         filter = filter.to_s.strip
@@ -54,11 +54,10 @@ module Dailymile
       else
         '/entries'
       end
-    
+      
       data = get entries_path, params
       data["entries"]
     end
-    
     
   private
     
