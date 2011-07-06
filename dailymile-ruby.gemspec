@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
     "dailymile-ruby.gemspec",
     "lib/dailymile.rb",
     "lib/dailymile/client.rb",
+    "lib/dailymile/workout.rb",
     "lib/dailymile/connection.rb",
     "lib/dailymile/connection/token.rb",
     "test/helper.rb",
