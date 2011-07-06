@@ -30,3 +30,4 @@ end
 require 'dailymile/connection' # require File.expand_path(File.dirname(__FILE__) + '/dailymile/connection')
 require 'dailymile/connection/token'
 require 'dailymile/client'
+require 'dailymile/workout'
