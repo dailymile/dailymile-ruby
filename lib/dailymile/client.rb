@@ -59,9 +59,9 @@ module Dailymile
       data["entries"]
     end
 
-    def post_message(message)
-    	workout_path = '/entries.json'
-    	data = post workout_path, workout
+    def post_entry(entry)
+    	entries_path = '/entries.json'
+    	data = post entries_path, entry
     	data
     end
  
