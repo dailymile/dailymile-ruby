@@ -28,21 +28,18 @@ Using your access token:
   client = Dailymile::Client.new ACCESS_TOKEN
   user = client.get '/people/me'
 
-Posting message (and workout):
+Posting an entry (with a workout details):
 
   require 'dailymile'
   Dailymile::Client.set_client_credentials CLIENT_ID, CLIENT_SECRET
   client = Dailymile::Client.new ACCESS_TOKEN
 	
-	workout = Dailymile::Workout.new
+	entry = Dailymile::Entry.new "I am feeling great" 
 
-	workout.message = "I am feeling great" 
-	workout.activity_type = "running" 
-	workout.set_distance("5","kilometers")
+	entry.activity_type = "running" 
+	entry.set_distance("5","kilometers")
 
-	puts workout.workout
-	
-	client.post_workout(workout.workout)
+	client.post_entry(entry.entry)
 
 == Note on Patches/Pull Requests
  
