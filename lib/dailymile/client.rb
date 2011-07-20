@@ -59,10 +59,8 @@ module Dailymile
       data["entries"]
     end
 
-    def post_workout(workout)
+    def post_message(message)
     	workout_path = '/entries.json'
-    	#TODO: get actual workout details here
-    	workout = { :message => 'Ruby API test', :activity_type => "running" }
     	data = post workout_path, workout
     	data
     end
