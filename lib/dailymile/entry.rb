@@ -2,23 +2,6 @@ module Dailymile
 
   class Entry
 
-		#message, string (optional)
-		#lat, float (optional) the latitude of this entry, between -90 and 90
-		#lon, float (optional) the longitude of this entry, between -180 and 180
-		#Include if posting a workout:
-		#workout[activity_type], string
-		#workout[completed_at], datetime (optional)
-		#workout[distance][value], float (optional)
-		#workout[distance][units], string (optional)
-		#workout[duration], integer (optional)
-		#workout[felt], string (optional)
-		#workout[calories], integer (optional)
-		#workout[title], string (optional)
-		#workout[route_id], integer (optional)
-
-		#{"message"=>"I am running", "activity_type"=>"running", "distance"=>{"value"=>"5", "units"=>"km"}}
-
-
 		attr_reader :message, :lat, :lon
 		attr_writer :message, :lat, :lon
 
@@ -41,24 +24,21 @@ module Dailymile
 			end 
 		end
 
-		#workout[completed_at], datetime (optional) when the workout was done, formatted in ISO 8601 and in UTC. ex: 2011-01-11T03:54:43Z
-		# TODO: workout how date and time works in ruby 
-		def completed_at=(year,month,date,hour=0,min=0,sec=0)
-			# this looks awfully wrong 
-			@entry['workout'][ 'completed_at' ] = year+'-'+month+'-'+date+'T'+hour+':'+min+':'+sec+'Z' 
+		# TODO: Need to do datevtype checking here
+		def completed_at=(datetime)
+			@entry['workout'][ 'completed_at' ] = DateTime.parse( datetime.to_time.getutc.to_s ).iso8601
 		end
 
-		#workout[distance][value], float (optional)  the distance indicated by units
-		#TODO: cannot workout how to do distance=
-		def set_distance(value,units=nil)
+		#TODO: how to type check that distance is hash?
+		def distance=(distance)
 			@entry['workout'][ 'distance' ]={}
-			@entry['workout'][ 'distance' ][ 'value' ] = value
-			unless units.nil?
-				unless DISTANCE_UNITS.include?( units )
+			@entry['workout'][ 'distance' ][ 'value' ] = distance[ 'value' ]
+			unless distance[ 'units' ].nil?
+				unless DISTANCE_UNITS.include?( distance['units'] )
 					#TODO raise a proper exception
-					raise 'WorkoutException: unknown units ' + units
+					raise 'WorkoutException: unknown units ' + distance['units']
 				else			
-					@entry['workout'][ 'distance' ][ 'units' ] = units
+					@entry['workout'][ 'distance' ][ 'units' ] = distance['units']
 				end 
 			end
 		end
@@ -77,7 +57,7 @@ module Dailymile
 		end
 		
 		def calories=(calories)
-			@entry['workout'][ 'calories' ] = felt
+			@entry['workout'][ 'calories' ] = calories
 		end
 		
 		def title=(title)

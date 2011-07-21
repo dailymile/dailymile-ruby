@@ -1,6 +1,7 @@
 require 'faraday'
 require 'json'
 require 'oauth2'
+require 'date'
 
 module Dailymile
   
