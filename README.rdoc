@@ -33,18 +33,18 @@ Posting an entry (with a workout details):
   require 'dailymile'
   Dailymile::Client.set_client_credentials CLIENT_ID, CLIENT_SECRET
   client = Dailymile::Client.new ACCESS_TOKEN
-	entry = Dailymile::Entry.new "Totally awesome"
-	# Optional: workout details
-	entry.activity_type = "running" 
-	entry.duration=3600
-	entry.felt="great"
-	entry.calories=400
-	entry.title="API Test"
-	distance = { "value" => 5, "units" => "kilometers" }
-	entry.distance=distance
-	entry.completed_at=DateTime.parse('2011-07-19 13:00')
-	# post entry
-	client.post_entry(entry.entry)
+  entry = Dailymile::Entry.new "Totally awesome"
+  # Optional: workout details
+  entry.activity_type = "running" 
+  entry.duration=3600
+  entry.felt="great"
+  entry.calories=400
+  entry.title="API Test"
+  distance = { "value" => 5, "units" => "kilometers" }
+  entry.distance=distance
+  entry.completed_at=DateTime.parse('2011-07-19 13:00')
+  # post entry
+  client.post_entry(entry.entry)
 	
 == Note on Patches/Pull Requests
  
