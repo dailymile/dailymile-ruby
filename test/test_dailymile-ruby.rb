@@ -13,7 +13,7 @@ class TestDailymileRuby < Test::Unit::TestCase
         :body     => Rack::Utils.build_nested_query( params ), 
         :headers  => {
           'Accept'        =>'application/json', 
-          'Authorization' =>'OAuth DUMMYTOKEN', 
+          'Authorization' =>'OAuth ACCESS_TOKEN', 
           'Content-Type'  =>'application/x-www-form-urlencoded', 
           'User-Agent'    =>'dailymile-ruby/0.2.0'
         }
@@ -27,14 +27,14 @@ class TestDailymileRuby < Test::Unit::TestCase
     # Stub setup
     params = { 
       :message      => "Totally awesome", 
-      :oauth_token  => "DUMMYTOKEN"
+      :oauth_token  => "ACCESS_TOKEN"
     }
 
     build_stub( params )
 
     # Test
-    Dailymile::Client.set_client_credentials 'DAILYMILEAPIID', 'DAILYMILEAPICLIENT'
-    client = Dailymile::Client.new 'DUMMYTOKEN'
+    Dailymile::Client.set_client_credentials 'CLIENT_ID', 'CLIENT_SECRET'
+    client = Dailymile::Client.new 'ACCESS_TOKEN'
 
     entry = Dailymile::Entry.new :message => "Totally awesome"
     client.post_entry(entry.entry)  
@@ -55,14 +55,14 @@ class TestDailymileRuby < Test::Unit::TestCase
         #}
         :completed_at   => DateTime.parse( DateTime.parse('2011-07-19 13:00').to_time.getutc.to_s ).iso8601 
       },
-      :oauth_token    => "DUMMYTOKEN"
+      :oauth_token    => "ACCESS_TOKEN"
     }
 
     build_stub( params )
 
     # Test
-  	Dailymile::Client.set_client_credentials 'qnFYExIvAhpsBLY4DU7w4jJerrmtBTUOQ4zccS1e', 'uE2tbUVPAjzXftUVZySLGvISEQkyeGQrSuh3Jz1n'
-  	client = Dailymile::Client.new 'DUMMYTOKEN'
+    Dailymile::Client.set_client_credentials 'CLIENT_ID', 'CLIENT_SECRET'
+  	client = Dailymile::Client.new 'ACCESS_TOKEN'
 
   	entry = Dailymile::Entry.new :message => "Totally awesome"
   	entry.activity_type = "running" 
