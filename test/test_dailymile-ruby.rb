@@ -48,12 +48,12 @@ class TestDailymileRuby < Test::Unit::TestCase
         :duration       => "3600",
         :felt           => "great",
         :calories       => "400",
-        :title          => "API Test"
-        #:completed_at   => "2011-07-19 13:00", 
+        :title          => "API Test",
         #:distance       => {
         #  :value        => "5",
         #  :units        => "kilometers"
         #}
+        :completed_at   => DateTime.parse( DateTime.parse('2011-07-19 13:00').to_time.getutc.to_s ).iso8601 
       },
       :oauth_token    => "DUMMYTOKEN"
     }
@@ -70,8 +70,11 @@ class TestDailymileRuby < Test::Unit::TestCase
   	entry.felt = "great"
   	entry.calories = 400
   	entry.title = "API Test"
+    #TODO: distance and completed_at tests failed
     #entry.distance = { :value => "5", :units => "kilometers" }
-    #entry.completed_at=DateTime.parse('2011-07-19 13:00')
+    entry.completed_at = DateTime.parse('2011-07-19 13:00')
+
+    puts entry.entry
 
   	client.post_entry(entry.entry)  
   end
