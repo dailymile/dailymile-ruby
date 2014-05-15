@@ -58,6 +58,13 @@ module Dailymile
       data = get entries_path, params
       data["entries"]
     end
+
+    def post_entry(entry)
+    	entries_path = '/entries.json'
+    	data = post entries_path, entry
+    	data
+    end
+ 
     
   private
     

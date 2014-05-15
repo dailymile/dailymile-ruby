@@ -1,6 +1,7 @@
 require 'faraday'
 require 'json'
 require 'oauth2'
+require 'date'
 
 module Dailymile
   
@@ -30,3 +31,4 @@ end
 require 'dailymile/connection' # require File.expand_path(File.dirname(__FILE__) + '/dailymile/connection')
 require 'dailymile/connection/token'
 require 'dailymile/client'
+require 'dailymile/entry'

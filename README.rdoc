@@ -28,6 +28,27 @@ Using your access token:
   client = Dailymile::Client.new ACCESS_TOKEN
   user = client.get '/people/me'
 
+Posting an entry (with a workout details):
+
+  require 'dailymile'
+  Dailymile::Client.set_client_credentials CLIENT_ID, CLIENT_SECRET
+  client = Dailymile::Client.new ACCESS_TOKEN
+  
+  # Create an entry
+  entry = Dailymile::Entry.new "Totally awesome"
+
+  # Workout details
+  entry.activity_type = "running" 
+  entry.duration = 3600
+  entry.felt = "great"
+  entry.calories = 400
+  entry.title = "API Test"
+  entry.distance = { "value" => 5, "units" => "kilometers" }
+  entry.completed_at = DateTime.parse('2011-07-19 13:00')
+  
+  # Post entry
+  client.post_entry(entry.entry)
+	
 == Note on Patches/Pull Requests
  
 * Fork the project.

@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'psych'
+#require 'psych'
 require 'rake'
 
 begin
@@ -16,7 +16,7 @@ begin
     gem.add_dependency("json_pure")
     gem.add_dependency("oauth2", "0.1.1")
     
-    # gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
+    gem.add_development_dependency "webmock", ">= 0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
